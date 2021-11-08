@@ -1,0 +1,86 @@
+﻿@model CV.Web.Models.FileListModel
+<h2>Upload File to Images</h2>
+
+<script language="javascript" type="text/javascript">
+
+    function uploadFile()
+    {
+        blockUI("#fileUpload");
+
+        var formData = new FormData();
+        formData.append($('#file')[0].files[0].name, $('#file')[0].files[0]);
+
+        try
+        {
+            $.ajax({
+                url: '@Url.Action("UploadFile")',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: onUploadFile,
+                beforeSend: function (xhr, settings) {
+                    InAJAX = true;
+                },
+                complete: function (xhr, textStatus) {
+                    InAJAX = false;
+                    unblockUI("#fileUpload");
+                }
+            });
+        }
+        catch (err) {
+            alert("Error: " + err);
+        }
+    }
+
+    function onUploadFile(data) {
+        if (data != null) {
+            if (!data.startsWith("SUCCESS"))
+                $("#savemessage").text(data);
+            else {
+                $("#savemessage").text("File uploaded successfully. In seconds you will be redirected to index.");
+                setTimeout("gotoIndex()", 3000);
+            }
+        }
+    }
+
+    function gotoIndex()
+    {
+        window.location.reload(true);
+    }
+
+</script>
+
+<div>
+    Use this page to upload custom images to site.
+    <br />
+    Path to use these images are: "/Content/images/custom/<b>&lt;</b><u style="color: red">FILENAME</u><b>&gt;</b>"
+    <br/>
+</div>
+
+<fieldset id="fileUpload" style="margin-top: 30px;">
+    <legend>Upload New File</legend>
+    <input type="file" class="button" name="file" id="file" />
+    <input type="button" class="button" value="Upload File" onclick="uploadFile()" />
+    <br />
+    <span id="savemessage" class="error" />
+</fieldset>
+
+<div style="margin-top: 50px;">
+    <table>
+        @for (int i = 0; i < Model.Files.Count; i++)
+        {
+            <tr>
+                <td style="width: 150px">
+                    <img src="@Url.Content("~/Content/images/custom/")@Html.DisplayFor(m => m.Files[i])" />
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Files[i])
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@Html.Partial("_WaitPartial")

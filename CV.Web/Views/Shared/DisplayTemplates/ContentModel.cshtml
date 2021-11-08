@@ -1,0 +1,8 @@
+﻿@model CV.Web.Models.ContentModel
+<fieldset class="viewer" data-val-id="@Model.ContentID" data-val-header="@Model.Header" data-val-view="false">
+    <legend>@Model.Header</legend>
+    <div class="content">
+        @Html.Raw(Model.Content)
+    </div>
+</fieldset>
+

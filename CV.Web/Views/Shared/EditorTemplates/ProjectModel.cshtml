@@ -1,0 +1,77 @@
+﻿@model CV.Web.Models.ProjectModel
+@{
+    CV.Web.Controllers.ProjectController RController = (Html.ViewContext.Controller as CV.Web.Controllers.ProjectController);
+}
+<script language="javascript" type="text/javascript">
+    $('#StartDate').datepicker({ dateFormat: "yy MM", changeYear: true, changeMonth: true, minDate: null, yearRange: "1982:2030" });
+    $('#StartDate').keyup(validateCheckStartDate);
+    $("#StartDate").keypress(jqueryPreventNonNumeric);
+
+    $('#EndDate').datepicker({ dateFormat: "yy MM", changeYear: true, changeMonth: true, minDate: null, yearRange: "1982:2030" });
+    $('#EndDate').keyup(validateCheckEndDate);
+    $("#EndDate").keypress(jqueryPreventNonNumeric);
+</script>
+<fieldset>
+    <legend>Project Info</legend>
+    <table class="main">
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.Name)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Name, new { maxlength = 255 })
+                @Html.PutValidationRequiredStar()
+                @Html.PutValidationMessage("ProjectNameEmpty", "Project Name cannot be left empty!")
+            </td>
+        </tr>
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.CompanyID)</td>
+            <td>
+                @Html.DropDownListFor(m => m.CompanyID, new SelectList(RController.CommercialCompanies, "CompanyID", "Name", null))
+                @Html.PutValidationRequiredStar()
+                @Html.PutValidationMessage("CompanyEmpty", "Company is not selected!")
+            </td>
+        </tr>
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.Link)</td>
+            <td>
+                @Html.TextBoxFor(m => m.Link, new { maxlength = 1023 })
+            </td>
+        </tr>
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.StartDate)</td>
+            <td>
+                <!-- required, date must be old -->
+                <input type="text" id="StartDate" value="@Model.StartDate.ToString("yyyy MMMM")" maxlength="10" />
+                @Html.PutValidationRequiredStar()
+                @Html.PutValidationMessage("StartDateEmpty", "Project position start date cannot be empty!")
+                @Html.PutValidationMessage("StartDateInvalid", "Project position start date should be in the past!")
+            </td>
+        </tr>
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.EndDate)</td>
+            <td>
+                <!-- required, date must be old -->
+                @if (@Model.EndDate.HasValue)
+                {
+                    <input type="text" id="EndDate" value="@Model.EndDate.Value.ToString("yyyy MMMM")" maxlength="10" />
+                }
+                else
+                {
+                    <input type="text" id="EndDate" value="" maxlength="10" />
+                }
+                <br />
+                @Html.PutValidationMessage("EndDateInvalid", "Project position end date should be in the past!")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                <input data-val-id="@Model.ProjectID" type="submit" style="width: 200px; margin-top: 30px; display: @(Model.ProjectID == 0 ? Html.Raw("none") : Html.Raw("inline"))" class="button" value="New Content" onclick="addProjectContent()" />
+                <input data-val-id="@Model.ProjectID" type="submit" style="width: 200px; margin-top: 30px;" class="button" value="Save" onclick="ajaxSaveProject()" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span id="savemessage" class="error" />
+            </td>
+        </tr>
+    </table>
+</fieldset>

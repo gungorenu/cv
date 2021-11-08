@@ -1,0 +1,34 @@
+﻿@model CV.Web.Models.ContentModel
+
+<fieldset class="editor" data-val-owner="@Model.OwnerID" data-val-id="@Model.ContentID">
+    <legend>Edit Content</legend>
+    @Html.HiddenFor(m => m.OwnerID, new { id = "OwnerID_" + Model.ContentID })
+    @Html.HiddenFor(m => m.Rank, new { id = "Rank_" + Model.ContentID })
+    <table class="contenteditortbl">
+        <tr>
+            <td class="left">@Html.LabelFor(m => m.Header)</td>
+            <td class="entry">@Html.TextBoxFor(m => m.Header, new { id = "Header_" + Model.ContentID })</td>
+        </tr>
+        <tr>
+            <td class="left" style="vertical-align: top">@Html.LabelFor(m => m.Content) &nbsp; @Html.PutValidationRequiredStar()</td>
+            <td class="entry">
+                @Html.TextAreaFor(m => m.Content, new { id = "Content_" + Model.ContentID })
+                <br/>
+                @Html.PutValidationMessage("ContentEmpty_" + Model.ContentID, "Content cannot be empty!")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: right">
+                <input type="submit" class="button" value="Shift Up" style="width: 125px; display: @(Model.ContentID == 0 ? Html.Raw("hidden") : Html.Raw("inline"))" onclick="ajaxShiftContentUp(@Model.ContentID)" />
+                <input type="submit" class="button" value="Shift Down" style="width: 125px; display: @(Model.ContentID == 0 ? Html.Raw("hidden") : Html.Raw("inline"))" onclick="ajaxShiftContentDown(@Model.ContentID)" />
+                <input type="submit" class="button" value="Delete" style="width: 125px; display: @(Model.ContentID == 0 ? Html.Raw("hidden") : Html.Raw("inline"))" onclick="deleteSelectedContent(@Model.ContentID)" />
+                <input type="submit" class="button" value="Save" onclick="ajaxSaveContent(@Model.ContentID)" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span id="savemessage_@Model.ContentID" class="error" />
+            </td>
+        </tr>
+    </table>
+</fieldset>

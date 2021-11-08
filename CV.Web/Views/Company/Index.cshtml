@@ -1,0 +1,116 @@
+﻿<h2>Companies</h2>
+@model CV.Web.Models.CompanyListModel
+@{
+    CV.Web.Controllers.CompanyController RController = (Html.ViewContext.Controller as CV.Web.Controllers.CompanyController);
+    bool isAdmin = RController.IsAdministrator;
+}
+<script language="javascript" type="text/javascript">
+    var indexPath = '@Url.Action("Index")';
+    @if (RController.IsAdministrator)
+    {
+        @: var newCompanyInfoPartialView = '@(Url.Action("New", "Company",null, Request.Url.Scheme))';
+        @: var deleteCompanyPath = '@Url.Action("Delete")';
+        @: var companySavePath = '@Url.Action("Save")';
+        @: var getCompanyInfoPath = '@Url.Action("EditCompanyInfo")?companyId=';
+        
+        @: var getContentsPath = '@(Url.Action("EditContents", "CompanyContent",null, Request.Url.Scheme))?ownerId=';
+        @: var saveContentPath = '@(Url.Action("SaveContent", "CompanyContent",null, Request.Url.Scheme))';
+        @: var deleteContentPath = '@(Url.Action("DeleteContent", "CompanyContent", null, Request.Url.Scheme))';
+        @: var newContentPath = '@(Url.Action("NewContent", "CompanyContent", null, Request.Url.Scheme))';
+        @: var upContentPath = '@(Url.Action("ShiftContentUp", "CompanyContent", null, Request.Url.Scheme))';
+        @: var downContentPath = '@(Url.Action("ShiftContentDown", "CompanyContent", null, Request.Url.Scheme))';
+    }
+    else
+    {
+        @: var getCompanyInfoPath = '@Url.Action("ShowCompanyInfo")?companyId=';
+        @: var getContentsPath = '@(Url.Action("ShowContents", "CompanyContent", null, Request.Url.Scheme))?ownerId=';
+    }
+
+    $(document).ready(function () {
+        $(".elementstbl tr").click(function () {
+            if ($(this) != lastSelectedCompany) {
+                if (lastSelectedCompany != null)
+                    lastSelectedCompany.removeClass('selected');
+                lastSelectedCompany = $(this);
+                loadCompanyInfo();
+                @if (RController.IsAdministrator)
+                {
+                    @: $('#DeleteCompany').show();
+                }
+                $(this).addClass('selected');
+            }
+        });
+
+    @if (RController.IsAdministrator)
+    {
+        @: $("#ConfirmDeleteCompanyDialog").dialog({
+        @:         resizable: false,
+        @:     height: 180,
+        @:     width: 400,
+        @:     modal: true,
+        @:     autoOpen: false,
+        @:     buttons:
+        @:         {
+        @:             OK: function () { ajaxDeleteCompany(); $(this).dialog("close"); },
+        @:             Cancel: function() { $(this).dialog("close"); }
+        @:         }
+        @:     });
+        @: $("#ConfirmDeleteContentDialog").dialog({
+        @:         resizable: false,
+        @:     height: 180,
+        @:     width: 400,
+        @:     modal: true,
+        @:     autoOpen: false,
+        @:     buttons:
+        @:         {
+        @:             OK: function() { ajaxDeleteContent(); $(this).dialog("close"); },
+        @:             Cancel: function() { $(this).dialog("close"); }
+        @:         }
+        @:     });
+        }
+    });
+</script>
+@Html.Partial("_NavigationPartial")
+<div>
+    <p>Click on a company name to learn more about details of my work there (order by newest to oldest).</p>
+</div>
+<table class="paneltbl" style="border: 1px">
+    <tr>
+        <td class="listing" rowspan="2">
+            <table class="elementstbl">
+                @foreach (CV.Web.Models.CompanyModel cm in Model)
+                {
+                    <tr data-val-id="@cm.CompanyID">
+                        <td><div>@cm.Name</div></td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td class="vertical" rowspan="2"><div class="verticalline"></div></td>
+        <td class="details">
+            <div id="companyInfoError" class="error" style="display: none">Error on loading company Info</div>
+            <div id="companydetails" style="display: none" />
+        </td>
+    </tr>
+    <tr>
+        <td class="contents">
+            <div id="contents" style="display: none">
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div class="dialog" id="NoCompanySelectedDialog" title="No Company Selected" style="display: none">
+    <p>No company selected! Please select an company to delete!</p>
+</div>
+@if (RController.IsAdministrator)
+{
+    <div class="dialog" id="ConfirmDeleteCompanyDialog" title="Confirm Company Delete" style="display: none">
+        <p>Are you sure to delete company?</p>
+    </div>
+    <div class="dialog" id="ConfirmDeleteContentDialog" title="Confirm Content Delete" style="display: none">
+        <p>Are you sure to delete content?</p>
+    </div>
+}
+
+@Html.Partial("_WaitPartial")

@@ -1,0 +1,386 @@
+﻿/* # id */
+/* . class */
+
+/* ___________________________________ */
+/* ____..::  LAYOUT ELEMENTS  ::..____ */
+/* ___________________________________ */
+
+html,body 
+{
+    height: 100%;
+    background-color: #ffffff;
+    font-family: Verdana;
+    font-size: 0.9em;
+    margin: 0;
+    color: #000000;
+    min-width: 1000px;
+}
+
+header
+{
+    color: #000000;
+    padding: 5px 5px 0px;
+    display: block;
+}
+
+div#layoutwrap
+{
+    color: #000000;
+    display: block;
+    min-height: 100%;
+    overflow-x: visible;
+}
+
+div#layouttitle 
+{
+    position: relative;
+}
+
+div#layouttitle:before
+{
+    display: block;
+    float: left;
+    text-align: left;
+    padding-left: 200px;
+    padding-right: 200px;
+    margin-right: 200px;
+    height: 150px;
+    content: "";
+    position: absolute;
+    top: -50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background: url('images/me.bmp') no-repeat left;
+    opacity: 0.5;
+} 
+
+div#layouttitleinternal
+{
+    display: block;
+    float: left;
+    text-align: left;
+    padding-left: 200px;
+    padding-right: 200px;
+    height: 100px;
+    position: relative; 
+    z-index: 2;
+}
+
+div#layoutlogindisplay 
+{
+    display: block;
+    text-align: right;
+    margin: 10px;
+    z-index: 4;
+    min-width: 200px;
+}
+
+section#layoutmain 
+{
+    padding: 0px 10px 40px;
+    background-color: #ffffff;
+    border-radius: 4px 0 0 0;
+    -webkit-border-radius: 4px 0 0 0;
+    -moz-border-radius: 4px 0 0 0;
+    display: block;
+    overflow-x: visible;
+    margin-bottom: 100px;
+}
+
+footer
+{
+    border-top: 1px solid black;
+    background: #999999;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    line-height: normal;
+    margin-top: -97px;
+    height: 96px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+footer p
+{
+    font-size: 0.9em;
+    color: #333333;
+}
+
+nav 
+{
+    display: block;
+    padding: 1px; /* firefox fails*/
+}
+
+table#layoutmenutbl 
+{
+    width: 100%;
+    border: none;
+    padding: 3px 0px ;
+    border-collapse: collapse;
+}
+
+table#layoutmenutbl tr, 
+table#layoutmenutbl tr td
+{
+    border: none;
+    padding: 3px 0px;
+}
+
+/* _________________________ */
+/* ____..::  LINKS  ::..____ */
+/* _________________________ */
+
+a:link,
+a:visited,
+a:active 
+{
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a:hover 
+{
+    color: #ee0000;
+    text-decoration: none;
+}
+
+/* _______________________________ */
+/* ____..::  TEXT STYLES  ::..____ */
+/* _______________________________ */
+
+p, 
+ul, 
+div, 
+span, 
+label, 
+li
+{
+    line-height: 1.3em;
+    font-size: 1em;
+    color: #000000;
+}
+
+h1 
+{
+    font-weight: bold;
+    font-size: 2.4em;
+}
+
+h2 
+{
+    font-weight: bold;
+    font-size: 1.8em;
+    font-style: italic;
+}
+
+h3 
+{
+    font-weight: bold;
+    font-size: 1.6em;
+}
+
+h4 
+{
+    font-weight: bold;
+    font-size: 1.4em;
+    font-style: italic;
+}
+
+h5
+{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+h6
+{
+    font-weight: bold;
+    font-size: 1em;
+    font-style: italic;
+}
+
+/* _______________________________________ */
+/* ____..::  NAVIGATION ELEMENTS  ::..____ */
+/* _______________________________________ */
+
+ul#layoutnavigation 
+{
+    border-bottom: 1px #5C87B2 solid;
+    position: relative;
+    padding: 0px;
+    margin: 0;
+    text-align: left;
+}
+
+ul#layoutsubnavigation 
+{
+    border: 0;
+    position: relative;
+    padding: 0px;
+    margin: 0;
+    text-align: left;
+}
+
+ul#layoutculture 
+{
+    border-bottom: 1px #5C87B2 solid;
+    position: relative;
+    padding: 0px;
+    margin: 0;
+    text-align: right;
+}
+
+ul#layoutculture li, 
+ul#layoutnavigation li , 
+ul#layoutsubnavigation li 
+{
+    display: inline;
+    list-style: none;
+}
+
+ul#layoutculture li a, 
+ul#layoutnavigation li a , 
+ul#layoutsubnavigation li a 
+{
+    font-size: 1em;
+    padding: 3px 3px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2em;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+}
+
+ul#layoutsubnavigation li a , 
+ul#layoutsubnavigation li a:link, 
+ul#layoutsubnavigation li a:active, 
+ul#layoutsubnavigation li a:visited 
+{
+    color: #ff5500;
+}
+
+ul#layoutsubnavigation li a:hover
+{
+    color: #00dd66;
+}
+
+/* ______________________________________________ */
+/* ____..::  MISC / TOO COMMON ELEMENTS  ::..____ */
+/* ______________________________________________ */
+
+div#loading
+{
+    display: none;
+    cursor: default;
+    margin: 0px;
+    text-align: center;
+}
+
+div.dialog, div.dialog p
+{
+    font-size: .9em;
+    color: Red;
+    font-weight: bold;
+}
+
+.centerdiv
+{
+    width: 100%;
+    margin: 0px auto;
+    text-align: center;
+}
+
+.centertable
+{
+    margin: 0px 100px auto;
+}
+
+.rightcell
+{
+    text-align: right;
+}
+
+.leftcell
+{
+    text-align: left;
+}
+
+.clear 
+{
+    clear: both;
+}
+
+.error 
+{
+    color: Red;
+}
+
+div.verticalline
+{
+    vertical-align: top;
+    border: #bbbbbb 1px inset;
+    background: #bbbbbb;
+    width: 1px;
+    height: 250px;
+}
+
+/* ______________________________________ */
+/* ____..::  VALIDATION / ERROR  ::..____ */
+/* ______________________________________ */
+
+span.required, 
+span.validation
+{
+    color: #ff0000;
+    font-style: italic;
+    font-size: .9em;
+}
+
+span.validation
+{
+    display: none;
+}
+
+div.validation
+{
+    display: inline;
+}
+
+h4.error
+{
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* _________________________ */
+/* ____..::  IMAGES ::..____ */
+/* _________________________ */
+
+img.deleteimg,
+img.editimg,
+img.externalimg
+{
+    width: 20px;
+    height: 20px;
+    margin: 3px;
+}
+
+img.externalimg{
+    margin-bottom: -5px;
+}
+
+.ui-datepicker
+{
+    width: auto !important;
+}
+.ui-datepicker .ui-datepicker-title select
+{
+    font-size: .9em !important;
+    min-width: 100px;
+}

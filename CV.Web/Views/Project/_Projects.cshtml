@@ -1,0 +1,124 @@
+﻿@model CV.Web.Models.ProjectListModel
+@{
+    CV.Web.Controllers.ProjectController RController = (Html.ViewContext.Controller as CV.Web.Controllers.ProjectController);
+    bool isAdmin = RController.IsAdministrator;
+    System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("en-US");
+    string RAction = Convert.ToString(Request.RequestContext.RouteData.Values["action"]).ToLower(culture);
+}
+<script language="javascript" type="text/javascript">
+    var indexPath = '@Url.Action("CommercialProjects")';
+    @if (RController.IsAdministrator)
+    {
+        if( RAction == "personalprojects")
+        {
+            @: var newProjectInfoPartialView = '@(Url.Action("New", "Project",null, Request.Url.Scheme))?personal=true';
+        }
+        else
+        {
+            @: var newProjectInfoPartialView = '@(Url.Action("New", "Project",null, Request.Url.Scheme))?personal=false';
+        }
+        @: var deleteProjectPath = '@Url.Action("Delete")';
+        @: var projectSavePath = '@Url.Action("Save")';
+        @: var getProjectInfoPath = '@Url.Action("EditProjectInfo")?projectId=';
+
+        @: var getContentsPath = '@(Url.Action("EditContents", "ProjectContent",null, Request.Url.Scheme))?ownerId=';
+        @: var saveContentPath = '@(Url.Action("SaveContent", "ProjectContent", null, Request.Url.Scheme))';
+        @: var deleteContentPath = '@(Url.Action("DeleteContent", "ProjectContent", null, Request.Url.Scheme))';
+        @: var newContentPath = '@(Url.Action("NewContent", "ProjectContent", null, Request.Url.Scheme))';
+        @: var upContentPath = '@(Url.Action("ShiftContentUp", "ProjectContent", null, Request.Url.Scheme))';
+        @: var downContentPath = '@(Url.Action("ShiftContentDown", "ProjectContent", null, Request.Url.Scheme))';
+    }
+    else
+    {
+        @: var getProjectInfoPath = '@Url.Action("ShowProjectInfo")?projectId=';
+        @: var getContentsPath = '@(Url.Action("ShowContents", "ProjectContent", null, Request.Url.Scheme))?ownerId=';
+    }
+
+    $(document).ready(function () {
+        $(".elementstbl tr").click(function () {
+            if ($(this) != lastSelectedProject) {
+                if (lastSelectedProject != null)
+                    lastSelectedProject.removeClass('selected');
+                lastSelectedProject = $(this);
+                loadProjectInfo();
+                @if (RController.IsAdministrator)
+                {
+                    @: $('#DeleteProject').show();
+                }
+                $(this).addClass('selected');
+            }
+        });
+
+    @if (RController.IsAdministrator)
+    {
+        @: $("#ConfirmDeleteProjectDialog").dialog({
+        @:         resizable: false,
+        @:     height: 180,
+        @:     width: 400,
+        @:     modal: true,
+        @:     autoOpen: false,
+        @:     buttons:
+        @:         {
+        @:             OK: function () { ajaxDeleteProject(); $(this).dialog("close"); },
+        @:             Cancel: function() { $(this).dialog("close"); }
+        @:         }
+        @:     });
+        @: $("#ConfirmDeleteContentDialog").dialog({
+        @:         resizable: false,
+        @:     height: 180,
+        @:     width: 400,
+        @:     modal: true,
+        @:     autoOpen: false,
+        @:     buttons:
+        @:         {
+        @:             OK: function() { ajaxDeleteContent(); $(this).dialog("close"); },
+        @:             Cancel: function() { $(this).dialog("close"); }
+        @:         }
+        @:     });
+        }
+    });
+</script>
+@Html.Partial("_NavigationPartial")
+<div>
+    <p>@ViewBag.Header</p>
+</div>
+<table class="paneltbl" style="border: 1px">
+    <tr>
+        <td class="listing" rowspan="2">
+            <table class="elementstbl">
+                @foreach (CV.Web.Models.ProjectModel cm in Model)
+                {
+                    <tr data-val-id="@cm.ProjectID">
+                        <td><div>@cm.Name</div></td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td class="vertical" rowspan="2"><div class="verticalline"></div></td>
+        <td class="details">
+            <div id="projectInfoError" class="error" style="display: none">Error on loading project Info</div>
+            <div id="projectdetails" style="display: none" />
+        </td>
+    </tr>
+    <tr>
+        <td class="contents">
+            <div id="contents" style="display: none">
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div class="dialog" id="NoProjectSelectedDialog" title="No Project Selected" style="display: none">
+    <p>No project selected! Please select a project to delete!</p>
+</div>
+@if (RController.IsAdministrator)
+{
+    <div class="dialog" id="ConfirmDeleteProjectDialog" title="Confirm Project Delete" style="display: none">
+        <p>Are you sure to delete project?</p>
+    </div>
+    <div class="dialog" id="ConfirmDeleteContentDialog" title="Confirm Content Delete" style="display: none">
+        <p>Are you sure to delete content?</p>
+    </div>
+}
+
+@Html.Partial("_WaitPartial")

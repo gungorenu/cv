@@ -1,0 +1,15 @@
+﻿@model CV.Web.Models.ContentContainerModel
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("div#contents fieldset.viewer").each(function () {
+            if ($(this).attr('data-val-view') == false && $(this).attr('data-val-header') == '') {
+                $(this).addClass('headerless')
+            }
+        });
+    });
+</script>
+@for (int i = 0; i < Model.Elements.Count; i++)
+{
+    
+    Html.RenderPartial("~/Views/Shared/DisplayTemplates/ContentModel.cshtml", Model.Elements[i]);
+}

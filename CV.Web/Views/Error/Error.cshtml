@@ -1,0 +1,13 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+<h4 class="error">Sorry, an error occurred while processing your request.</h4>
+<fieldset class="error">
+    <legend>Error Details</legend>
+    <div>
+        <p><strong>Action Name: </strong>@Model.ActionName</p>
+        <p><strong>Controller Name: </strong>@Model.ControllerName</p>
+        <p><strong>ExceptionFullName: </strong>@Model.Exception.GetType().FullName</p>
+        <p><strong>Exception Message: </strong>@Model.Exception.Message</p>
+        <p><strong>Exception Stack Trace: </strong><pre>@Model.Exception.StackTrace</pre></p>
+    </div>
+</fieldset>

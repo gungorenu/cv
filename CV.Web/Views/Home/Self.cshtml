@@ -1,0 +1,82 @@
+﻿@model CV.Web.Models.SelfInfoContentListModel
+@{
+    CV.Web.Controllers.BaseController RController = (Html.ViewContext.Controller as CV.Web.Controllers.BaseController);
+    bool isAdmin = RController.IsAdministrator;
+}
+<script language="javascript" type="text/javascript">
+    var contentOwner = @Model.OwnerId;
+    var indexPath = '@Url.Action("Self")';
+    @if (RController.IsAdministrator)
+    {
+        @: var getContentsPath = '@(Url.Action("EditContents", "CompanyContent",null, Request.Url.Scheme))?ownerId=';
+        @: var saveContentPath = '@(Url.Action("SaveContent", "CompanyContent", null, Request.Url.Scheme))';
+        @: var deleteContentPath = '@(Url.Action("DeleteContent", "CompanyContent", null, Request.Url.Scheme))';
+        @: var newContentPath = '@(Url.Action("NewContent", "CompanyContent", null, Request.Url.Scheme))';
+        @: var upContentPath = '@(Url.Action("ShiftContentUp", "CompanyContent", null, Request.Url.Scheme))';
+        @: var downContentPath = '@(Url.Action("ShiftContentDown", "CompanyContent", null, Request.Url.Scheme))';
+    }
+    else
+    {
+        @: var getContentsPath = '@(Url.Action("ShowContents", "CompanyContent", null, Request.Url.Scheme))?ownerId=';
+    }
+
+    @if (RController.IsAdministrator)
+    {
+        @: $(document).ready(function() {
+        @: $("#ConfirmDeleteContentDialog").dialog({
+        @:         resizable: false,
+        @:     height: 180,
+        @:     width: 400,
+        @:     modal: true,
+        @:     autoOpen: false,
+        @:     buttons:
+        @:         {
+        @:             OK: function() { ajaxDeleteContent(); $(this).dialog("close"); },
+        @:             Cancel: function() { $(this).dialog("close"); }
+        @:         }
+        @:     });
+        @: });
+    }
+</script>
+
+<h2>Personal Information</h2>
+
+@if (isAdmin)
+{
+    <nav>
+        <ul id="layoutsubnavigation">
+            <li><a href="#" id="NewContent" onclick="addContent()">New Content</a></li>
+        </ul>
+    </nav>
+}
+
+<p>Besides my career at various companies and projects I have worked at, here in this page you can find some other information about me.</p>
+
+<div style="margin-bottom: 30px">
+    <span id="savemessage" class="error" />
+</div>
+<div id="selfinfocontents" class="paneltbl">
+    @for (int i = 0; i < Model.Elements.Count; i++)
+    {
+        if (isAdmin)
+        {
+            @Html.Partial("~/Views/Shared/EditorTemplates/ContentModel.cshtml", Model.Elements[i]);
+        }
+        else
+        {
+            @Html.Partial("~/Views/Shared/DisplayTemplates/ContentModel.cshtml", Model.Elements[i]);
+        }
+    }
+</div>
+
+<div class="dialog" id="NoProjectSelectedDialog" title="No Project Selected" style="display: none">
+    <p>No project selected! Please select a project to delete!</p>
+</div>
+@if (RController.IsAdministrator)
+{
+    <div class="dialog" id="ConfirmDeleteContentDialog" title="Confirm Content Delete" style="display: none">
+        <p>Are you sure to delete content?</p>
+    </div>
+}
+
+@Html.Partial("_WaitPartial")

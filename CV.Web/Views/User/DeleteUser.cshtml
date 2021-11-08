@@ -1,0 +1,19 @@
+﻿@model CV.Web.Models.DeleteUserModel
+<h2>Delete Existing User</h2>
+<p>Use the form below to delete a user.</p>
+<p>User with specified name must exist.</p>
+
+@using (Html.BeginForm("DeleteUser","User")) 
+{
+    @Html.ValidationSummary(true, "User delete was unsuccessful. Please correct the errors and try again.")
+    <div>
+        <fieldset>
+            <legend>Account Information</legend>
+
+            <div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
+            <div class="editor-field">@Html.PasswordFor(m => m.UserName) @Html.ValidationMessageFor(m => m.UserName)</div>
+            
+            <p><input type="submit" class="button" value="Delete User" /></p>
+        </fieldset>
+    </div>
+}

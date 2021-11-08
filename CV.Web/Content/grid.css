@@ -1,0 +1,76 @@
+﻿/* # id */
+/* . class */
+
+/* ______________________________________ */
+/* ____..::  GENERIC GRID TABLE  ::..____ */
+/* ______________________________________ */
+
+table.grid
+{
+    border: #bbbbbb 1px solid;
+    text-align: left;
+    padding: 0px;
+    border-spacing: 0;
+}
+    
+table.grid tr
+{
+    height: 30px;
+}
+
+table.grid tr.selected
+{
+    background-color: #ffdd11;
+}
+    
+table.grid th, 
+table.grid td
+{
+    border: #bbbbbb 1px solid;
+    padding: 0 5px;
+}
+    
+table.grid th
+{
+    font-weight: bold;
+    text-align: center;
+    background: #dddddd;
+}
+
+table.grid th.header a,    
+table.grid th.header a:link, 
+table.grid th.header a:visited, 
+table.grid th.header a:active, 
+table.grid th.header a:hover
+{
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+table.grid td
+{
+    background: inherit;
+    text-align: center;
+}
+
+table.grid td.rightcell
+{
+    background: inherit;
+    text-align: right;
+}
+
+table.grid td.leftcell
+{
+    background: inherit;
+    text-align: left;
+}
+
+table.grid img
+{
+    float: right;
+    display: none;
+}
+
+
+

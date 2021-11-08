@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CVDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="COMPANIES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="YEARSTART" Type="date" Nullable="false" />
+          <Property Name="YEAREND" Type="date" />
+          <Property Name="POSITIONS" Type="nvarchar" MaxLength="1023" Nullable="false" />
+          <Property Name="LINK" Type="nvarchar" MaxLength="1023" />
+        </EntityType>
+        <EntityType Name="COMPANYINFO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CONTENT" Type="ntext" Nullable="false" />
+          <Property Name="RANK" Type="int" Nullable="false" />
+          <Property Name="HEADER" Type="nvarchar" MaxLength="255" />
+          <Property Name="COMPANY" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ERRORS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ERROR" Type="ntext" Nullable="false" />
+          <Property Name="CREATEDON" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROJECTINFO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CONTENT" Type="ntext" Nullable="false" />
+          <Property Name="RANK" Type="int" Nullable="false" />
+          <Property Name="HEADER" Type="nvarchar" MaxLength="255" />
+          <Property Name="PROJECT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROJECTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="COMPANY" Type="int" Nullable="false" />
+          <Property Name="YEARSTART" Type="date" Nullable="false" />
+          <Property Name="YEAREND" Type="date" />
+          <Property Name="LINK" Type="nvarchar" MaxLength="1023" />
+        </EntityType>
+        <Association Name="FK_COMPANYINFO_COMPANIES">
+          <End Role="COMPANIES" Type="Self.COMPANIES" Multiplicity="1" />
+          <End Role="COMPANYINFO" Type="Self.COMPANYINFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPANIES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMPANYINFO">
+              <PropertyRef Name="COMPANY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROJECTINFO_PROJECTS">
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="1" />
+          <End Role="PROJECTINFO" Type="Self.PROJECTINFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PROJECTINFO">
+              <PropertyRef Name="PROJECT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROJECTS_COMPANIES">
+          <End Role="COMPANIES" Type="Self.COMPANIES" Multiplicity="1" />
+          <End Role="PROJECTS" Type="Self.PROJECTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPANIES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PROJECTS">
+              <PropertyRef Name="COMPANY" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetSQLNow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CV" ReturnType="date" />
+        <Function Name="SQLNow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CV" ReturnType="date" />
+        <EntityContainer Name="CVDbModelStoreContainer">
+          <EntitySet Name="COMPANIES" EntityType="Self.COMPANIES" Schema="CV" store:Type="Tables" />
+          <EntitySet Name="COMPANYINFO" EntityType="Self.COMPANYINFO" Schema="CV" store:Type="Tables" />
+          <EntitySet Name="ERRORS" EntityType="Self.ERRORS" Schema="CV" store:Type="Tables" />
+          <EntitySet Name="PROJECTINFO" EntityType="Self.PROJECTINFO" Schema="CV" store:Type="Tables" />
+          <EntitySet Name="PROJECTS" EntityType="Self.PROJECTS" Schema="CV" store:Type="Tables" />
+          <AssociationSet Name="FK_COMPANYINFO_COMPANIES" Association="Self.FK_COMPANYINFO_COMPANIES">
+            <End Role="COMPANIES" EntitySet="COMPANIES" />
+            <End Role="COMPANYINFO" EntitySet="COMPANYINFO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROJECTINFO_PROJECTS" Association="Self.FK_PROJECTINFO_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="PROJECTINFO" EntitySet="PROJECTINFO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROJECTS_COMPANIES" Association="Self.FK_PROJECTS_COMPANIES">
+            <End Role="COMPANIES" EntitySet="COMPANIES" />
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CVDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartYear" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndYear" Type="DateTime" Precision="0" />
+          <Property Name="Positions" Type="String" MaxLength="1023" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Link" Type="String" MaxLength="1023" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contents" Relationship="Self.FK_COMPANYINFO_COMPANIES" FromRole="COMPANIES" ToRole="COMPANYINFO" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_PROJECTS_COMPANIES" FromRole="COMPANIES" ToRole="PROJECTS" />
+        </EntityType>
+        <EntityType Name="CompanyContent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_COMPANYINFO_COMPANIES" FromRole="COMPANYINFO" ToRole="COMPANIES" />
+        </EntityType>
+        <EntityType Name="Error">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProjectContent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_PROJECTINFO_PROJECTS" FromRole="PROJECTINFO" ToRole="PROJECTS" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="StartYear" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndYear" Type="DateTime" Precision="0" />
+          <Property Name="Link" Type="String" MaxLength="1023" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_PROJECTS_COMPANIES" FromRole="PROJECTS" ToRole="COMPANIES" />
+          <NavigationProperty Name="Contents" Relationship="Self.FK_PROJECTINFO_PROJECTS" FromRole="PROJECTS" ToRole="PROJECTINFO" />
+        </EntityType>
+        <Association Name="FK_COMPANYINFO_COMPANIES">
+          <End Role="COMPANIES" Type="CVDbModel.Company" Multiplicity="1" />
+          <End Role="COMPANYINFO" Type="CVDbModel.CompanyContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPANIES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMPANYINFO">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROJECTS_COMPANIES">
+          <End Role="COMPANIES" Type="CVDbModel.Company" Multiplicity="1" />
+          <End Role="PROJECTS" Type="CVDbModel.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMPANIES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PROJECTS">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PROJECTINFO_PROJECTS">
+          <End Role="PROJECTS" Type="CVDbModel.Project" Multiplicity="1" />
+          <End Role="PROJECTINFO" Type="CVDbModel.ProjectContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PROJECTINFO">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CVDbContext" annotation:LazyLoadingEnabled="true" a:TypeAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration">
+          <EntitySet Name="COMPANIES" EntityType="CVDbModel.Company" />
+          <EntitySet Name="COMPANYINFO" EntityType="CVDbModel.CompanyContent" />
+          <EntitySet Name="ERRORS" EntityType="CVDbModel.Error" />
+          <EntitySet Name="PROJECTINFO" EntityType="CVDbModel.ProjectContent" />
+          <EntitySet Name="PROJECTS" EntityType="CVDbModel.Project" />
+          <AssociationSet Name="FK_COMPANYINFO_COMPANIES" Association="Self.FK_COMPANYINFO_COMPANIES">
+            <End Role="COMPANIES" EntitySet="COMPANIES" />
+            <End Role="COMPANYINFO" EntitySet="COMPANYINFO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROJECTS_COMPANIES" Association="Self.FK_PROJECTS_COMPANIES">
+            <End Role="COMPANIES" EntitySet="COMPANIES" />
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PROJECTINFO_PROJECTS" Association="Self.FK_PROJECTINFO_PROJECTS">
+            <End Role="PROJECTS" EntitySet="PROJECTS" />
+            <End Role="PROJECTINFO" EntitySet="PROJECTINFO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CVDbModelStoreContainer" CdmEntityContainer="CVDbContext">
+          <EntitySetMapping Name="COMPANIES">
+            <EntityTypeMapping TypeName="CVDbModel.Company">
+              <MappingFragment StoreEntitySet="COMPANIES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="StartYear" ColumnName="YEARSTART" />
+                <ScalarProperty Name="EndYear" ColumnName="YEAREND" />
+                <ScalarProperty Name="Positions" ColumnName="POSITIONS" />
+                <ScalarProperty Name="Link" ColumnName="LINK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMPANYINFO">
+            <EntityTypeMapping TypeName="CVDbModel.CompanyContent">
+              <MappingFragment StoreEntitySet="COMPANYINFO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Content" ColumnName="CONTENT" />
+                <ScalarProperty Name="Rank" ColumnName="RANK" />
+                <ScalarProperty Name="Header" ColumnName="HEADER" />
+                <ScalarProperty Name="OwnerId" ColumnName="COMPANY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ERRORS">
+            <EntityTypeMapping TypeName="CVDbModel.Error">
+              <MappingFragment StoreEntitySet="ERRORS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Message" ColumnName="ERROR" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CREATEDON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROJECTINFO">
+            <EntityTypeMapping TypeName="CVDbModel.ProjectContent">
+              <MappingFragment StoreEntitySet="PROJECTINFO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Content" ColumnName="CONTENT" />
+                <ScalarProperty Name="Rank" ColumnName="RANK" />
+                <ScalarProperty Name="Header" ColumnName="HEADER" />
+                <ScalarProperty Name="OwnerId" ColumnName="PROJECT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROJECTS">
+            <EntityTypeMapping TypeName="CVDbModel.Project">
+              <MappingFragment StoreEntitySet="PROJECTS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="NAME" />
+                <ScalarProperty Name="CompanyId" ColumnName="COMPANY" />
+                <ScalarProperty Name="StartYear" ColumnName="YEARSTART" />
+                <ScalarProperty Name="EndYear" ColumnName="YEAREND" />
+                <ScalarProperty Name="Link" ColumnName="LINK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="CV" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

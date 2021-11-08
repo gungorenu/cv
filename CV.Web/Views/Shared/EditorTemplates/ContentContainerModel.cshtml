@@ -1,0 +1,7 @@
+﻿@model CV.Web.Models.ContentContainerModel
+@for (int i = 0; i < Model.Elements.Count; i++)
+{
+    Html.RenderPartial("~/Views/Shared/EditorTemplates/ContentModel.cshtml", Model.Elements[i]);
+}
+
+

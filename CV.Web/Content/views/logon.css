@@ -1,0 +1,26 @@
+﻿table#logintbl
+{
+    width: 50em;
+    padding: 3px 0px ;
+    border-collapse: collapse;
+    margin: 1em;
+}
+
+table#logintbl tr
+{
+    border: none;
+    padding: 3px 0px;
+}
+
+table#logintbl tr td.label
+{
+    width: 10em;
+    padding: 3px 10px ;
+    border: none;
+}
+
+table#logintbl tr td.entry
+{
+    padding: 3px 10px ;
+    border: none;
+}

@@ -1,0 +1,100 @@
+﻿@{
+    System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("en-US");
+    string RAction = Convert.ToString(Request.RequestContext.RouteData.Values["action"]).ToLower(culture);
+    string RController = Convert.ToString(Request.RequestContext.RouteData.Values["controller"]).ToLower(culture);
+    bool isAdmin = (Html.ViewContext.Controller as CV.Web.Controllers.BaseController).IsAdministrator;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/common.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery.ui.all.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/panel.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/input.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.19.custom.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.blockUI.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/modernizr-1.7.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/common.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/date.js")"></script>
+    @if (RController == "user")
+    {
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/views/logon.css")" />
+        switch (RAction)
+        {
+            case "logon":
+                <script type="text/javascript" src="@Url.Content("~/Scripts/views/logon.js")"></script>
+                break;
+            case "deleteuser":
+            case "register":
+            case "changepassword":
+            default:
+                break;
+        }
+    }
+    else if (RController == "company")
+    {
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/views/content.css")" />
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/company.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/content.js")"></script>
+    }
+    else if (RController == "project")
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/project.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/content.js")"></script>
+    }
+    else if (RController == "home" && RAction == "self")
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/content.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/views/self.js")"></script>
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/views/content.css")" />
+    }
+</head>
+<body>
+    <div id="layoutwrap">
+        <header>
+            <div id="layouttitle">
+                <div id="layouttitleinternal">
+                    <h1>Information about Uğur Güngören</h1>
+                </div>
+            </div>
+            <div id="layoutlogindisplay">
+                @Html.Partial("_LoginPartial")
+            </div>
+            <nav>
+                <table id="layoutmenutbl">
+                    <tr>
+                        <td align="left">
+                            <ul id="layoutnavigation">
+                                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                                <li>@Html.ActionLink("Companies", "Index", "Company")</li>
+                                <li>@Html.ActionLink("Commercial Projects", "CommercialProjects", "Project")</li>
+                                <li>@Html.ActionLink("Personal Projects", "PersonalProjects", "Project")</li>
+                                <li>@Html.ActionLink("Personal Info", "Self", "Home")</li>
+                                <li>@Html.ActionLink("About", "About", "Home")</li>
+                                @if (isAdmin)
+                                {
+                                    <li>@Html.ActionLink("Upload File", "Upload", "Admin")</li>
+                                    <li>@Html.ActionLink("Create Database", "Database", "Admin")</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </nav>
+        </header>
+        <section id="layoutmain">
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <p>All rights reserved to Ugur Gungoren. ©2017</p>
+        <p>Contact: <a target="new" href="mailto:@CV.Web.Configuration.EmailAddress">@CV.Web.Configuration.EmailAddress</a>, <a target="new" href="@CV.Web.Configuration.Linkedin">Linkedin Profile</a> </p>
+        <p>I don't have other social media accounts.</p> 
+    </footer>
+</body>
+</html>

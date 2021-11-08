@@ -1,0 +1,35 @@
+﻿@model CV.Web.Models.LogOnModel
+<p>Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.</p>
+@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+@using (Html.BeginForm("LogOn", "User"))
+{
+    <div>
+        <fieldset>
+            <legend>Account Information</legend>
+            <table id="logintbl">
+                <tr>
+                    <td class="label">@Html.LabelFor(m => m.UserName)</td>
+                    <td class="entry">
+                        @Html.TextBoxFor(m => m.UserName)
+                        @Html.PutValidationRequiredStar()
+                        @Html.PutValidationMessage("UserNameEmpty", "User name cannot be empty!")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">@Html.LabelFor(m => m.Password)</td>
+                    <td class="entry">
+                        @Html.PasswordFor(m => m.Password)
+                        @Html.PutValidationRequiredStar()
+                        @Html.PutValidationMessage("PasswordEmpty", "Password cannot be empty!")
+                    </td>
+                </tr>
+                <tr>
+                    <td class="entry" colspan="2">@Html.CheckBoxFor(m => m.RememberMe) @Html.LabelFor(m => m.RememberMe)</td>
+                </tr>
+                <tr>
+                    <td class="entry" colspan="2"><input type="submit" value="Logon" id="Logon" class="button-disabled" disabled="disabled" /></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+}

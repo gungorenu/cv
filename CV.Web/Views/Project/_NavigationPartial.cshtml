@@ -1,0 +1,9 @@
+﻿@if ((Html.ViewContext.Controller as CV.Web.Controllers.BaseController).IsAdministrator)
+{
+    <nav>
+        <ul id="layoutsubnavigation">
+            <li><a href="#" id="NewProject" onclick="newProject()">New Project</a></li>
+            <li><a href="#" id="DeleteProject" style="display: none;" onclick="deleteSelectedProject()">Delete Project</a></li>
+        </ul>
+    </nav>
+}

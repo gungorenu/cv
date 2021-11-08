@@ -1,0 +1,21 @@
+﻿.button_contentoperation {
+    width: 100px;
+}
+
+table.contenteditortbl
+{
+    margin: 0px;
+}
+
+table.contenteditortbl tr
+{
+    height: 30px;
+}
+
+table.contenteditortbl td.left
+{
+    width: 200px;
+    text-align: left;
+    font-weight: bold;
+    vertical-align: middle;
+}

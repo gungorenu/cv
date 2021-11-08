@@ -1,0 +1,30 @@
+﻿@model CV.Web.Models.ProjectModel
+<fieldset style="min-width: 700px">
+    <legend>Project Info</legend>
+    <table class="main">
+        <tr>
+            <td class="left">Project Name: </td>
+            <td id="projectNameCell"><b>@Model.Name</b></td>
+        </tr>
+        <tr>
+            <td class="left" colspan="2"><img src="~/Content/images/external.png" class="externalimg" /><a target="_blank" href="@Model.Link" id="projectLinkCell">Link</a></td>
+        </tr>
+        <tr>
+            <td class="left">Start Year: </td>
+            <td id="projectStartYearCell">@Model.StartDate.ToString("yyyy MMMM")</td>
+        </tr>
+        <tr>
+            <td class="left">End Year: </td>
+            <td id="projectEndYearCell">
+                @if (Model.EndDate.HasValue)
+                {
+                    @Model.EndDate.Value.ToString("yyyy MMMM");
+                }
+                else
+                {
+                    @Html.Raw("still working");
+                }
+            </td>
+        </tr>
+    </table>
+</fieldset>
